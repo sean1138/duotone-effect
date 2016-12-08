@@ -1,0 +1,234 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+	<!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame -->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<title>Title</title>
+	<!-- Place favicon.ico and apple-touch-icon.png in the root of your domain and delete these references -->
+	<link rel="shortcut icon" href="i/favicon.ico" />
+	<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+	<!-- 60x60//-->
+	<!-- https://msdn.microsoft.com/en-us/library/dn455106(v=vs.85).aspx -->
+	<meta name="msapplication-config" content="tile.xml" />
+	<meta name="application-name" content="tiletext" />
+	<link href="001.css" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="001.js"></script>
+</head>
+<body>
+	<div id="vs_content" style="background:#FAFAFA;padding:1em .5em;">
+		<div class="onecol">
+			<p>by <a href="http://codepen.io/meowwwls/pen/zoRjdK">Melissa Em</a></p>
+		</div>
+	</div>
+	<!-- html -->
+	<header>
+		<h1><span class="spot">Spotify</span> Duotone Effect</h1>
+		<h2>Using CSS filters, blend modes, and pseudo-elements</h2>
+		<p>(Hover over the image to see the original.)</p>
+		<button class="btn" id="btn">Alternate Version</button>
+	</header>
+
+	<div class="grid-container">
+		<figure class="spot-grad">
+			<img src="https://drive.google.com/uc?export=view&id=0B8HLX1nN4xatZmRNbzYyWlJvdVk" alt="shirley manson" />
+			<div class="adjust"></div>
+		</figure>
+		<figure class="spot-grad">
+			<img src="https://drive.google.com/uc?export=view&id=0B8HLX1nN4xatLTAzcF9rOTZYVUE" alt="neko case" />
+			<div class="adjust"></div>
+		</figure>
+		<figure class="spot-grad">
+			<img src="https://drive.google.com/uc?export=view&id=0B8HLX1nN4xatU2dqUXlJaVFRNWM" alt="joanna newsom" />
+			<div class="adjust"></div>
+		</figure>
+		<figure class="spot-grad">
+			<img src="https://drive.google.com/uc?export=view&id=0B8HLX1nN4xatNDBTTTlQSTlkZjA" alt="beyonce" />
+			<div class="adjust"></div>
+		</figure>
+		<figure class="spot-grad">
+			<img src="https://drive.google.com/uc?export=view&id=0B8HLX1nN4xatcC1KTkNTTVhsYzA" alt="tori amos" />
+			<div class="adjust"></div>
+		</figure>
+	</div>
+	<!-- css -->
+	<style>
+	.spot-grad::before, .spot-grad::after, .adjust {
+		position: absolute;
+		content:'';
+		top: 0;
+		left: 0;
+		bottom: 0;
+		right: 0;
+		pointer-events: none;
+	}
+	@supports (filter: grayscale(1)) {
+		.spot-grad img {
+			filter: grayscale(1) contrast(.7) brightness(1.3);
+		}
+	}
+	/* main color */
+	@supports (mix-blend-mode: exclusion) {
+		.spot-grad::before {
+			z-index: 1;
+			background: rgb(126, 8, 150);
+			mix-blend-mode: exclusion;
+		}
+		/* alternate 'red' version   */
+		body.red .spot-grad::before {
+			background: rgb(0, 81, 102);
+		}
+	}
+	/* bring in the secondary tones */
+	@supports (mix-blend-mode: difference) {
+		.spot-grad::after {
+			z-index: 2;
+			background: rgb(13, 53, 255);
+			mix-blend-mode: difference;
+		}
+		/* alternate 'red' version  */
+		body.red .spot-grad::after {
+			background: rgb(53, 107, 215);
+		}
+	}
+	/* tones down the Frankenstein effect */
+	@supports (mix-blend-mode: overlay) {
+		.adjust {
+			z-index: 3;
+			background: hsl(248, 17%, 66%);
+			mix-blend-mode: overlay;
+		}
+		/* alternate 'red' version   */
+		body.red .adjust {
+			background: hsl(322, 28%, 53%);
+		}
+	}
+	/* general styles */
+	* {
+		box-sizing: border-box;
+	}
+	html, body {
+		height: 100%;
+	}
+	body {
+		margin: 0;
+		background: #222023;
+	}
+	.grid-container {
+		max-width: 50rem;
+		min-height: 100vh;
+		display: flex;
+		flex-wrap: wrap;
+		margin: 2rem auto 0;
+	}
+	header {
+		padding: 1rem 1rem 0;
+		text-align: center;
+		color:#fffffc;
+		font-size: 2vmax;
+		font-family:'Open Sans', sans-serif;
+	}
+	h1 {
+		font-weight: 700;
+		font-family:'Montserrat', sans-serif;
+	}
+	h2 {
+		font-style: italic;
+		font-weight: 300;
+		font-size: 1.5em;
+	}
+	header p {
+		font-style: italic;
+		font-weight: 400;
+		font-family:'Open Sans', sans-serif;
+		font-size: 0.88em;
+		color: #9897a9;
+	}
+	.btn {
+		display: inline-block;
+		padding: 0.75em 1em;
+		background: transparent;
+		border: 0.225em solid;
+		border-image: linear-gradient(60deg, #19016f, #d33249);
+		border-image-slice: 1;
+		font-weight: 400;
+		font-family:'Open Sans', sans-serif;
+		color: #fffffc;
+		text-transform: uppercase;
+		font-size: 0.9em;
+		letter-spacing: 1px;
+		cursor: pointer;
+	}
+	body.red .btn {
+		border-image: linear-gradient(60deg, #bf30de, #9cf0e1);
+		border-image-slice: 1;
+	}
+	.btn:hover {
+		background: linear-gradient(60deg, #19016f, #d33249);
+	}
+	body.red .btn:hover {
+		background: linear-gradient(60deg, #bf30de, #9cf0e1);
+	}
+	.spot {
+		margin-right: 3.75ch;
+	}
+	.spot::after {
+		position: absolute;
+		margin-left: 0.1em;
+		content:'(ish)';
+		color: #bf30de;
+		transform: rotate(-10deg);
+		transform-origin: top left;
+	}
+	body.red .spot::after {
+		color: #d33249;
+	}
+	.spot-grad {
+		position: relative;
+		min-height: 10rem;
+		max-height: 15rem;
+		margin: 0;
+		display: flex;
+		flex-basis: 100%;
+		flex-grow: 1;
+	}
+	.spot-grad img {
+		object-fit: cover;
+		max-width: 100%;
+	}
+	/* reverts the image to original on hover */
+	.spot-grad:hover::before, .spot-grad:hover::after, .spot-grad:hover .adjust {
+		opacity: 0;
+	}
+	.spot-grad:hover img {
+		filter: none;
+	}
+	@media screen and (min-width: 40rem) {
+		.grid-container {
+			padding: 0 1rem;
+			margin-bottom: 2rem;
+		}
+		.spot-grad:not(:nth-of-type(1)) {
+			flex-basis: calc(50% - 0.25em);
+			margin-top: 0.5rem;
+		}
+		.spot-grad:nth-child(2n+3) {
+			margin-left: 0.5em;
+		}
+	}
+	@media screen and (min-width: 62rem) {
+		header {
+			font-size: 1.4rem;
+		}
+	}
+	</style>
+	<!-- js -->
+	<script>
+	var btn = document.getElementById('btn');
+
+	btn.addEventListener('click', function() {
+		document.body.classList.toggle('red');
+	}, false);
+	</script>
+</body>
+</html>
